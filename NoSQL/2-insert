@@ -1,0 +1,2 @@
+// Create a document for new school collection
+db.school.insert({name: "Holberton school"})
