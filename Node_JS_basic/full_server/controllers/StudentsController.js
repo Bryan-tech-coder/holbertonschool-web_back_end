@@ -1,4 +1,4 @@
-import readDatabase from '../utils';
+import readDatabase from '../utils.js';
 
 class StudentsController {
   static getAllStudents(req, res) {

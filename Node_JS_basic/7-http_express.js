@@ -52,6 +52,29 @@ app.get('/students', (req, res) => {
     });
 });
 
+app.get('/students/:major', (req, res) => {
+  const { major } = req.params;
+
+  if (major !== 'CS' && major !== 'SWE') {
+    res.status(500).send('Major parameter must be CS or SWE');
+    return;
+  }
+
+  countStudents(process.argv[2])
+    .then((data) => {
+      const lines = data.split('\n');
+      // Remove the first line (total students count)
+      const studentsByMajor = lines.slice(1).find((line) => line.includes(`Number of students in ${major}`));
+      if (studentsByMajor) {
+        const match = studentsByMajor.match(/List: (.+)/);
+        res.send(`List: ${match[1]}`);
+      }
+    })
+    .catch(() => {
+      res.status(500).send('Cannot load the database');
+    });
+});
+
 app.listen(1245);
 
 module.exports = app;
